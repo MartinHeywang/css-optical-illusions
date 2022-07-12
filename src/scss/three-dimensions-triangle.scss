@@ -13,6 +13,7 @@
         position: relative;
 
         // this point is located at the top of the hole in the triangle
+        filter: drop-shadow(0.5em 0.5em 0 rgba(black, 0.5));
     }
 
     .v-left,
