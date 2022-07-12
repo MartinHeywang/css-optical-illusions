@@ -1,0 +1,73 @@
+@use "sass:map";
+
+@function selector() {
+    @return ".cube, [class^='cube']";
+}
+
+@function facesSelector() {
+    @return ".face, [class^='face-']";
+}
+
+@function faceSelector($name) {
+    @return ".face-#{$name}";
+}
+
+@mixin cube($edges-length, $default-color) {
+    #{selector()} {
+        position: absolute;
+        width: 0;
+        height: 0;
+    }
+
+    #{facesSelector()} {
+        position: absolute;
+
+        width: map.get($edges-length, "h");
+        height: map.get($edges-length, "v");
+
+        border: 1px solid black;
+
+        background-color: $default-color;
+    }
+
+    $y-skewing: 25deg;
+
+    #{faceSelector("left")} {
+        right: 0;
+        top: 0;
+
+        filter: brightness(90%);
+
+        transform-origin: right;
+        transform: skewY($y-skewing);
+
+        // observations:
+        // x skewing keeps horizontal lines horizontal (and changes vertical lines)
+        // while y skewing vertical lines vertical (and changes horizontal lines)
+        // the side of the transform-origin stays unchanged (here the border-right is exactly the same)
+    }
+
+    #{faceSelector("right")} {
+        left: 0;
+        top: 0;
+
+        filter: brightness(70%);
+
+        transform-origin: left;
+        transform: skewY(- $y-skewing);
+    }
+
+    #{faceSelector("top")} {
+        bottom: 0;
+        left: 50%;
+
+        height: map.get($edges-length, "h");
+
+        transform: 
+            translateX(-50%) // -50% to put the shape in the center
+            translateY(0.15em) // magic number so there's no gap between this face and the other ones
+            rotate(-45deg) // rotate to put the shape in place
+            skew(20deg, 20deg) // creates a diamond instead of a square
+            scale(102%);     // magic number
+    }
+}

@@ -1,0 +1,109 @@
+#three-dimensions-triangle {
+    $default-color: purple;
+    $special-color: white;
+
+    $unit-length: 4vw;
+    $line-width: $unit-length;
+
+    background-color: mix($default-color, black, 15%);
+
+    .three-dimensions-triangle-box {
+        width: 0;
+        height: 0;
+        position: relative;
+
+        // this point is located at the top of the hole in the triangle
+    }
+
+    .v-left,
+    .v-right,
+    .v-bottom {
+        position: absolute;
+        top: $unit-length * 0.9; // should be 0, but the value here is bull-eyed to place the triangle more in the center
+        left: 0;
+
+        width: $unit-length * 8;
+        height: $unit-length * 8;
+        aspect-ratio: 1 / 1;
+
+        transform: 
+            // 50% to center + value from custom prop
+            translate(calc(-50%), calc(-50%)) rotate(var(--rotation, 0deg)); // value from custom prop
+    }
+
+    .v-left {
+        --bgc: #{mix($default-color, white, 90%)};
+        --rotation: 0deg;
+
+        --delay: 0s;
+    }
+
+    .v-right {
+        --bgc: #{mix($default-color, white, 70%)};
+        --rotation: 240deg;
+
+        --delay: 2s;
+    }
+
+    .v-bottom {
+        --bgc: #{mix($default-color, white, 50%)};
+        --rotation: 120deg;
+
+        --delay: 4s;
+    }
+
+    .outer-line,
+    .inner-trapeze {
+        animation: triangle-color 6s infinite step-end;
+        animation-delay: var(--delay);
+    }
+
+    .outer-line {
+        position: absolute;
+        left: 50%;
+
+        width: $line-width;
+        height: $unit-length * 5.55;
+
+        transform-origin: top;
+        transform: translateX(-50%) skewX(30deg);
+    }
+
+    .inner-trapeze {
+        height: $line-width;
+        width: $unit-length * 3.5;
+
+        position: absolute;
+        left: 50%;
+        bottom: $line-width * 2.45;
+
+        transform: translateX(calc(-50% + $line-width * 0.5)) skewX(-30deg);
+
+        &::after {
+            content: "";
+
+            position: absolute;
+            left: 100%;
+            top: 0;
+            bottom: 0;
+
+            width: $unit-length;
+            transform: skewX(30deg) translateX($unit-length * -0.5);
+
+            animation: inherit;
+            animation-delay: inherit;
+        }
+    }
+
+    @keyframes triangle-color {
+        0% {
+            background-color: mix($default-color, white, 90%);
+        }
+        33% {
+            background-color: mix($default-color, white, 70%);
+        }
+        66% {
+            background-color: mix($default-color, white, 50%);
+        }
+    }
+}

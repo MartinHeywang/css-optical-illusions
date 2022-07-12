@@ -1,0 +1,129 @@
+@use "./cube" as cube;
+@use "sass:math";
+
+#infinite-staircase {
+    $default-color: dodgerblue;
+    $special-color: hsl(350, 100%, 65%);
+
+    background-color: mix($default-color, black, 15%);
+
+    .infinite-staircase-box {
+        width: 0;
+        height: 0;
+        position: relative;
+
+        filter: drop-shadow(.5em .5em 0 rgba(black, 0.5));
+    }
+
+    $h-edge-length: 5vw;
+    $v-edge-length: 8vw;
+
+    @include cube.cube(
+        (
+            h: $h-edge-length,
+            v: $v-edge-length,
+        ),
+        dodgerblue
+    );
+
+    // POSITIONING OF EACH CUBE ===============================================
+    // -> values can easily be found by drawing the illusion
+
+    // it's hard to know which cube is which, so if this can help:
+    // the cube-1 is the farthest from the user
+    // and then it goes counterclockwise
+
+    // here it might sound weird to use twice $h-edge-length but it's intended
+    // think of face-top = diamond, the short diagonal should normally equal the side
+    $unit-height: math.div($h-edge-length, 4);
+    $unit-width: $h-edge-length;
+
+    $unit-time: .5s;
+
+    .cube-1 {
+        bottom: $unit-height;
+        left: $unit-width;
+
+        animation-delay: 0;
+    }
+
+    .cube-2 {
+        top: 0;
+        left: 0;
+
+        animation-delay: $unit-time;
+    }
+
+    .cube-3 {
+        top: $unit-height;
+        right: $unit-width;
+
+        animation-delay: $unit-time * 2;
+    }
+
+    .cube-4 {
+        top: $unit-height * 2;
+        right: $unit-width * 2;
+
+        animation-delay: $unit-time * 3;
+
+        transform: translateX(1px); // minor adjustment
+    }
+
+    .cube-5 {
+        top: $unit-height * 3;
+        right: $unit-width;
+
+        animation-delay: $unit-time * 4;
+    }
+
+    .cube-6 {
+        top: $unit-height * 4;
+        left: 0;
+
+        animation-delay: $unit-time * 5;
+    }
+
+    .cube-7 {
+        top: $unit-height * 5;
+        left: $unit-width;
+
+        animation-delay: $unit-time * 6;
+    }
+
+    .cube-8 {
+        top: $unit-height * 2;
+        left: $unit-width * 2;
+
+        animation-delay: $unit-time * 7;
+
+        .face-left {
+            height: $unit-height + .2vw; // just an adjustment
+        }
+    }
+
+    // ANIMATION ==============================================================
+
+    #{cube.selector()} {
+        animation-play-state: inherit;
+
+        &:hover {
+            filter: brightness(50%);
+        }
+    }
+
+    #{cube.facesSelector()} {
+        animation: cube-color-staircase 4s infinite step-end;
+        animation-delay: inherit;
+    }
+
+    @keyframes cube-color-staircase {
+        0% {
+            background-color: $special-color;
+        }
+
+        12% {
+            background-color: $default-color;
+        }
+    }
+}

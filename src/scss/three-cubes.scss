@@ -1,0 +1,88 @@
+@use "sass:math";
+@use "./cube" as cube;
+
+$h-edge-length: 3.5em;
+$v-edge-length: 4em;
+
+section#three-cubes {
+
+    $default-color: limegreen;
+    $special-color: yellow;
+
+    background-color: mix($default-color, black, 15%);
+
+    .three-cubes-box {
+        width: 0;
+        height: 0;
+        position: relative;
+
+        animation-play-state: running;
+
+        &:hover {
+            animation-play-state: paused;
+        }
+
+        filter: drop-shadow(0.5em 0.5em 0 rgba(black, 0.5));
+    }
+
+    @include cube.cube((h: $h-edge-length, v: $v-edge-length), $default-color);
+
+    #{cube.selector()} {
+        animation-play-state: inherit;
+
+        &:hover {
+            filter: brightness(50%);
+        }
+    }
+
+    #{cube.facesSelector()} {
+        animation: cube-color-three 6s infinite step-end;
+        animation-delay: inherit; // the delay is set on the whole cube
+        animation-play-state: inherit; // the play state is on the whole illusion
+
+        @keyframes cube-color-three {
+            0% {
+                background-color: $special-color;
+            }
+            33% {
+                background-color: $default-color;
+            }
+        }
+    }
+
+    // POSITIONING OF EACH CUBE ===============================================
+    // -> values can easily be found by drawing the illusion
+
+    .cube-1 {
+        right: math.div($h-edge-length, 2);
+        bottom: math.div($v-edge-length, 4) * 3;
+
+        animation-delay: 0s;
+
+        .face-right {
+            clip-path: polygon(0 0, 100% 0, 100% 50%, 50% 50%, 50% 100%, 0 100%);
+        }
+    }
+
+    .cube-2 {
+        left: $h-edge-length;
+        top: -0.15em;
+
+        animation-delay: 2s;
+
+        .face-left {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 100%, 50% 50%, 0 50%);
+        }
+    }
+
+    .cube-3 {
+        right: math.div($h-edge-length, 2);
+        top: math.div($v-edge-length, 4) * 3 - 0.36em;
+
+        animation-delay: 4s;
+
+        .face-top {
+            clip-path: polygon(0 0, 50% 0, 50% 50%, 100% 50%, 100% 100%, 0 100%);
+        }
+    }
+}
