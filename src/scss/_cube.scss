@@ -12,7 +12,7 @@
     @return ".face-#{$name}";
 }
 
-@mixin cube($edges-length, $default-color) {
+@mixin cube($coords, $default-color) {
     #{selector()} {
         position: absolute;
         width: 0;
@@ -21,9 +21,6 @@
 
     #{facesSelector()} {
         position: absolute;
-
-        width: map.get($edges-length, "h");
-        height: map.get($edges-length, "v");
 
         border: 1px solid black;
 
@@ -35,6 +32,9 @@
     #{faceSelector("left")} {
         right: 0;
         top: 0;
+
+        width: map.get($coords, "x");
+        height: map.get($coords, "y");
 
         filter: brightness(90%);
 
@@ -51,6 +51,9 @@
         left: 0;
         top: 0;
 
+        width: map.get($coords, "z");
+        height: map.get($coords, "y");
+
         filter: brightness(70%);
 
         transform-origin: left;
@@ -61,7 +64,8 @@
         bottom: 0;
         left: 50%;
 
-        height: map.get($edges-length, "h");
+        width: map.get($coords, "z");
+        height: map.get($coords, "x");
 
         transform: 
             translateX(-50%) // -50% to put the shape in the center

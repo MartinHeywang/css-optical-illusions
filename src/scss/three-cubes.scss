@@ -1,20 +1,29 @@
-@use "sass:math";
 @use "./cube" as cube;
 
-$h-edge-length: 3.5em;
-$v-edge-length: 4em;
+@use "sass:math";
+@use "sass:map";
+
+$cube-coords: (
+    x: min(3.5em, 35vw),
+    y: min(4em, 40vw),
+    z: min(3.5em, 35vw),
+);
 
 section#three-cubes {
-
     $default-color: limegreen;
     $special-color: yellow;
 
     background-color: mix($default-color, black, 15%);
+    position: relative;
 
     .three-cubes-box {
         width: 0;
         height: 0;
-        position: relative;
+
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(calc(-50% - .5em), -50%);
 
         animation-play-state: running;
 
@@ -25,7 +34,7 @@ section#three-cubes {
         filter: drop-shadow(0.5em 0.5em 0 rgba(black, 0.5));
     }
 
-    @include cube.cube((h: $h-edge-length, v: $v-edge-length), $default-color);
+    @include cube.cube($cube-coords, $default-color);
 
     #{cube.selector()} {
         animation-play-state: inherit;
@@ -53,9 +62,12 @@ section#three-cubes {
     // POSITIONING OF EACH CUBE ===============================================
     // -> values can easily be found by drawing the illusion
 
+    $h-edge-length: map.get($cube-coords, "x");
+    $v-edge-length: map.get($cube-coords, "y");
+
     .cube-1 {
-        right: math.div($h-edge-length, 2);
-        bottom: math.div($v-edge-length, 4) * 3;
+        right: calc($h-edge-length / 2);
+        bottom: calc(math.div($v-edge-length, 4) * 3);
 
         animation-delay: 0s;
 
@@ -76,8 +88,8 @@ section#three-cubes {
     }
 
     .cube-3 {
-        right: math.div($h-edge-length, 2);
-        top: math.div($v-edge-length, 4) * 3 - 0.36em;
+        right: calc($h-edge-length / 2);
+        top: calc($v-edge-length / 4 * 3 - 0.36em); // bull-eyed adjustment
 
         animation-delay: 4s;
 

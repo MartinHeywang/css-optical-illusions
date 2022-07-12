@@ -15,16 +15,20 @@
         filter: drop-shadow(.5em .5em 0 rgba(black, 0.5));
     }
 
-    $h-edge-length: 5vw;
-    $v-edge-length: 8vw;
+    $h-edge-length: min(3.5em, 15vw);
+    $v-edge-length: min(8em, 35vw);
 
     @include cube.cube(
         (
-            h: $h-edge-length,
-            v: $v-edge-length,
+            x: $h-edge-length,
+            y: $v-edge-length,
+            z: $h-edge-length
         ),
         dodgerblue
     );
+
+    @debug math.cos(20deg) * 3.5em * 2;
+    
 
     // POSITIONING OF EACH CUBE ===============================================
     // -> values can easily be found by drawing the illusion
@@ -35,7 +39,7 @@
 
     // here it might sound weird to use twice $h-edge-length but it's intended
     // think of face-top = diamond, the short diagonal should normally equal the side
-    $unit-height: math.div($h-edge-length, 4);
+    $unit-height: calc($h-edge-length / 4);
     $unit-width: $h-edge-length;
 
     $unit-time: .5s;
@@ -62,8 +66,8 @@
     }
 
     .cube-4 {
-        top: $unit-height * 2;
-        right: $unit-width * 2;
+        top: calc($unit-height * 2);
+        right: calc($unit-width * 2);
 
         animation-delay: $unit-time * 3;
 
@@ -71,34 +75,34 @@
     }
 
     .cube-5 {
-        top: $unit-height * 3;
+        top: calc($unit-height * 3);
         right: $unit-width;
 
         animation-delay: $unit-time * 4;
     }
 
     .cube-6 {
-        top: $unit-height * 4;
+        top: calc($unit-height * 4);
         left: 0;
 
         animation-delay: $unit-time * 5;
     }
 
     .cube-7 {
-        top: $unit-height * 5;
-        left: $unit-width;
+        top: calc($unit-height * 5);
+        left: calc($unit-width);
 
         animation-delay: $unit-time * 6;
     }
 
     .cube-8 {
-        top: $unit-height * 2;
-        left: $unit-width * 2;
+        top: calc($unit-height * 2);
+        left: calc($unit-width * 2);
 
         animation-delay: $unit-time * 7;
 
         .face-left {
-            height: $unit-height + .2vw; // just an adjustment
+            height: calc($unit-height + .2vw); // just an adjustment
         }
     }
 

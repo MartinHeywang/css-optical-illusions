@@ -2,7 +2,7 @@
     $default-color: purple;
     $special-color: white;
 
-    $unit-length: 4vw;
+    $unit-length: min(3em, 10vw);
     $line-width: $unit-length;
 
     background-color: mix($default-color, black, 15%);
@@ -20,11 +20,11 @@
     .v-right,
     .v-bottom {
         position: absolute;
-        top: $unit-length * 0.9; // should be 0, but the value here is bull-eyed to place the triangle more in the center
-        left: 0;
+        top: calc($unit-length * 0.9); // should be 0, but the value here is bull-eyed to place the triangle more in the center
+        left: 0.5;
 
-        width: $unit-length * 8;
-        height: $unit-length * 8;
+        width: calc($unit-length * 8);
+        height: calc($unit-length * 8);
         aspect-ratio: 1 / 1;
 
         transform: 
@@ -64,7 +64,7 @@
         left: 50%;
 
         width: $line-width;
-        height: $unit-length * 5.55;
+        height: calc($unit-length * 5.55);
 
         transform-origin: top;
         transform: translateX(-50%) skewX(30deg);
@@ -72,11 +72,11 @@
 
     .inner-trapeze {
         height: $line-width;
-        width: $unit-length * 3.5;
+        width: calc($unit-length * 3.5);
 
         position: absolute;
         left: 50%;
-        bottom: $line-width * 2.45;
+        bottom: calc($line-width * 2.45);
 
         transform: translateX(calc(-50% + $line-width * 0.5)) skewX(-30deg);
 
@@ -89,7 +89,7 @@
             bottom: 0;
 
             width: $unit-length;
-            transform: skewX(30deg) translateX($unit-length * -0.5);
+            transform: skewX(30deg) translateX(calc($unit-length * -0.5));
 
             animation: inherit;
             animation-delay: inherit;
